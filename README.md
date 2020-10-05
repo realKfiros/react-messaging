@@ -7,10 +7,10 @@ THIS PACKAGE IS IN EARLY DEVELOPMENT!
 # react-messaging
 
 [![NPM](https://nodei.co/npm/react-messaging.png)](https://nodei.co/npm/react-messaging/)  
-![npm](https://img.shields.io/npm/dw/react-messaging)
-![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/react-messaging)
-![npm (tag)](https://img.shields.io/npm/v/react-messaging/latest)
-![NPM](https://img.shields.io/npm/l/react-messaging)
+[![npm](https://img.shields.io/npm/dw/react-messaging)](https://www.npmjs.com/package/react-messaging)
+[![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/react-messaging)](https://libraries.io/npm/react-messaging/0.0.6/tree)
+[![npm (tag)](https://img.shields.io/npm/v/react-messaging/latest)](https://www.npmjs.com/package/react-messaging?activeTab=versions)
+[![NPM](https://img.shields.io/npm/l/react-messaging)](LICENSE)
 
 The perfect React chat component.
 
@@ -128,7 +128,7 @@ export interface User {
 
 ## Developer
 
-![Twitter Follow](https://img.shields.io/twitter/follow/realKfiros)  
+[![Twitter Follow](https://img.shields.io/twitter/follow/realKfiros)](https://twitter.com/realKfiros)  
 Feel free to DM me on Twitter.
 
 ## License
