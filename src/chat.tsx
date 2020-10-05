@@ -5,7 +5,7 @@ import { MessageRow } from './components/message';
 import { Message } from './interfaces/message';
 import { User } from './interfaces/user';
 
-interface ChatProps {
+export interface ChatProps {
     messages: Array<Message>;
     user: User;
     onSend: (text: string) => void;
