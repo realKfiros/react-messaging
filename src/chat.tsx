@@ -6,51 +6,55 @@ import { Message } from './interfaces/message';
 import { User } from './interfaces/user';
 
 export interface ChatProps {
-    messages: Array<Message>;
-    user: User;
-    onSend: (text: string) => void;
-    inputPlaceholder?: string;
-    dateFormat?: string;
+  messages: Array<Message>;
+  user: User;
+  onSend: (text: string) => void;
+  inputPlaceholder?: string;
+  dateFormat?: string;
 }
 
 export const Chat: FC<ChatProps> = ({
-    messages,
-    user,
-    onSend,
-    inputPlaceholder,
-    dateFormat
+  messages,
+  user,
+  onSend,
+  inputPlaceholder,
+  dateFormat,
 }) => {
-    const [text, setText] = useState('');
+  const [text, setText] = useState('');
 
-    return (
-        <ChatContainer>
-            <MessagesContainer>
-                {messages.map(message => <MessageRow message={message} user={user} dateFormat={dateFormat} />)}
-            </MessagesContainer>
-            <InputContainer>
-                <Input
-                    text={text}
-                    setText={setText}
-                    inputPlaceholder={inputPlaceholder}
-                    onSend={onSend} />
-            </InputContainer>
-        </ChatContainer>
-    )
-}
+  return (
+    <ChatContainer>
+      <MessagesContainer>
+        {messages.map((message) => (
+          <MessageRow message={message} user={user} dateFormat={dateFormat} />
+        ))}
+      </MessagesContainer>
+      <InputContainer>
+        <Input
+          text={text}
+          setText={setText}
+          inputPlaceholder={inputPlaceholder}
+          onSend={onSend}
+        />
+      </InputContainer>
+    </ChatContainer>
+  );
+};
 
 const ChatContainer = styled.div`
-    display: flex;
-    height: 100%;
-    flex-direction: column;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
 `;
 
 const MessagesContainer = styled.div`
-    flex-grow: 1;
-    margin: 10px;
-    overflow-y: auto;
+  flex-grow: 1;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const InputContainer = styled.div`
-    display: flex;
-    margin: 10px;
+  display: flex;
+  margin: 10px;
 `;
