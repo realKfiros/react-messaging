@@ -1,1 +1,1 @@
-export * from './src/chat';
+export { Chat } from './src/chat';
