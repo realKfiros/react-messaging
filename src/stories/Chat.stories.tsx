@@ -5,9 +5,10 @@ import { Chat, ChatProps } from '../chat';
 import mockMessages from '../mocks/messages.json';
 import mockUser from '../mocks/user.json';
 import { v4 } from 'uuid';
+import { Button } from '@material-ui/core';
 
 export default {
-  title: 'Example/Chat',
+  title: 'Components/Chat',
   component: Chat,
   argTypes: {
     backgroundColor: { control: 'color' },
@@ -23,7 +24,14 @@ const Template: Story<ChatProps> = (args) => {
 
   const initMessages = () => {
     setMessages(
-      mockMessages.map((message) => ({ ...message, date: new Date() }))
+      mockMessages.reverse().map((message, index) => {
+        let date = new Date();
+        date.setMinutes(date.getMinutes() - index);
+        return {
+          ...message,
+          date
+        };
+      })
     );
   };
 
@@ -46,7 +54,10 @@ const Template: Story<ChatProps> = (args) => {
         height: 500,
       }}
     >
-      <Chat messages={messages} user={mockUser} onSend={onSend} />
+      <Chat
+        messages={messages}
+        user={mockUser}
+        onSend={onSend} />
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Input } from './components/input';
 import { MessageRow } from './components/message';
@@ -11,6 +11,9 @@ export interface ChatProps {
   onSend: (text: string) => void;
   inputPlaceholder?: string;
   dateFormat?: string;
+  showAvatarOnEveryMessage?: boolean;
+  renderInput?: (props: any) => ReactNode;
+  renderSend?: (onClick: (data: any) => void) => ReactNode;
 }
 
 export const Chat: FC<ChatProps> = ({
@@ -19,23 +22,44 @@ export const Chat: FC<ChatProps> = ({
   onSend,
   inputPlaceholder,
   dateFormat,
+  showAvatarOnEveryMessage,
+  renderInput,
+  renderSend
 }) => {
-  const [text, setText] = useState('');
+  const sortMessages = (message1: Message, message2: Message): number => {
+    return message1.date.getTime() - message2.date.getTime();
+  };
+
+  const _messages = messages.sort(sortMessages).reverse();
+
+  const showAvatar = (index: number): boolean => {
+    return showAvatarOnEveryMessage || (
+      index === 0 || (
+        _messages[index].user._id !== _messages[index - 1].user._id
+      )
+    )
+  }
 
   return (
     <ChatContainer>
       <MessagesContainer>
-        {messages.map((message) => (
-          <MessageRow message={message} user={user} dateFormat={dateFormat} />
-        ))}
+        {_messages
+          .map((message, index) => (
+            <MessageRow
+              key={message._id}
+              message={message}
+              user={user}
+              dateFormat={dateFormat}
+              showAvatar={showAvatar(index)}
+            />
+          ))}
       </MessagesContainer>
       <InputContainer>
         <Input
-          text={text}
-          setText={setText}
           inputPlaceholder={inputPlaceholder}
           onSend={onSend}
-        />
+          renderInput={renderInput}
+          renderSend={renderSend} />
       </InputContainer>
     </ChatContainer>
   );
@@ -51,7 +75,8 @@ const MessagesContainer = styled.div`
   flex-grow: 1;
   margin: 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
+  overflow-y: auto;
 `;
 
 const InputContainer = styled.div`

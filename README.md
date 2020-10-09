@@ -125,6 +125,31 @@ export interface User {
 - **onSend** (Function) - the function that runs when the user presses the send button, **required**
 - **inputPlaceholder** (string) - the placeholder of the input, defaults to `"Type a message..."`
 - **dateFormat** (string) - the format of the date in the message bubble, defaults to `"hh:mm"` (check [date-fns docs](https://date-fns.org/v2.16.1/docs/format) to see valid formats)
+- **showAvatarOnEveryMessage** (boolean) - show avatar on every message, even if the same user sent a message twice in a row, defaults to `false`.
+- **renderInput** (Function) - render custom view for the message input. example down.
+- **renderSend** (Function) - render custom send button. example down.
+
+### renderInput Example
+
+```typescript
+renderInput={(props) => (
+  <input
+    {...props}  // required
+    type="text"/>
+)}
+```
+
+### renderSend Example
+
+```typescript
+renderSend={(props) => (
+  <Button
+    {...props}  // required
+    variant="contained">
+    Send
+  </Button>
+)}
+```
 
 ## Developer
 

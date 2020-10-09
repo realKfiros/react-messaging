@@ -1,6 +1,6 @@
 {
   "name": "react-messaging",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "The perfect chat component for ReactJS",
   "main": "lib/index.js",
   "directories": {
@@ -16,6 +16,7 @@
     "date-fns": "^2.16.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^6.9.1",
     "react-jss": "^10.4.0",
     "styled-components": "^5.2.0",
     "typescript": "^3.7.5"

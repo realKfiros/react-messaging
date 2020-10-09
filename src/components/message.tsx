@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import {
-    Avatar
+    Avatar,
+    Typography
 } from '@material-ui/core';
 import styled from 'styled-components';
 import { format } from 'date-fns';
@@ -11,9 +12,10 @@ interface MessageProps {
     message: Message;
     user: User;
     dateFormat?: string;
+    showAvatar?: boolean;
 }
 
-export const MessageRow: FC<MessageProps> = ({ message, user, dateFormat }) => {
+export const MessageRow: FC<MessageProps> = ({ message, user, dateFormat, showAvatar }) => {
     let Row = user._id === message.user._id ? RightRow : LeftRow;
     let MessageBubble = user._id === message.user._id ? RightBubble : LeftBubble;
     let Text = user._id === message.user._id ? RightText : LeftText;
@@ -21,9 +23,13 @@ export const MessageRow: FC<MessageProps> = ({ message, user, dateFormat }) => {
 
     return (
         <Row>
-            <Avatar alt={message.user.name} src={message.user.avatar} />
+            {showAvatar ? (
+                <Avatar alt={message.user.name} src={message.user.avatar} />
+            ) : <NoAvatar />}
             <MessageBubble>
-                <Text>{message.text}</Text>
+                <Text>
+                    <Typography variant="body1">{message.text}</Typography>
+                </Text>
                 <Date>{format(message.date, dateFormat || 'hh:mm')}</Date>
             </MessageBubble>
         </Row>
@@ -33,6 +39,7 @@ export const MessageRow: FC<MessageProps> = ({ message, user, dateFormat }) => {
 const RightRow = styled.div`
     display: flex;
     flex-direction: row-reverse;
+    margin: 5px;
 `;
 
 const LeftRow = styled.div`
@@ -40,10 +47,16 @@ const LeftRow = styled.div`
     flex-direction: row;
 `;
 
+const NoAvatar = styled.div`
+    height: 40px;
+    width: 40px;
+`;
+
 const Bubble = styled.div`
     border-radius: 15px;
     min-height: 20px;
     justify-content: flex-end;
+    max-width: 50%;
 `;
 
 const RightBubble = styled(Bubble)`
@@ -60,6 +73,7 @@ const MessageText = styled.p`
     font-size: 16px;
     line-height: 20px;
     margin: 5px 10px;
+    word-wrap: break-word;
 `;
 
 const RightText = styled(MessageText)`

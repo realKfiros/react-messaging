@@ -1,0 +1,23 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Interfaces/Message" />
+
+```typescript
+export interface Message {
+  _id: string;
+  text: string;
+  user: User;
+  date: Date;
+  data?: any;
+}
+```
+
+# Properties
+
+| Name | Type   | Description                                |
+| ---- | ------ | ------------------------------------------ |
+| \_id | string | this identifier of the message             |
+| text | string | this text of the message                   |
+| user | User   | the sender of the message                  |
+| date | Date   | this date that the message sent on         |
+| data | any    | additional properties, for custom messages |
