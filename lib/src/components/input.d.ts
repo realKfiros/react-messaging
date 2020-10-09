@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 interface InputProps {
-    text: string;
-    setText: (text: string) => void;
     onSend: (text: string) => void;
     inputPlaceholder?: string;
+    renderInput?: (props: any) => ReactNode;
+    renderSend?: (props: any) => ReactNode;
 }
 export declare const Input: FC<InputProps>;
 export {};

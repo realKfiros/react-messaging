@@ -8,7 +8,7 @@ THIS PACKAGE IS IN EARLY DEVELOPMENT!
 
 [![NPM](https://nodei.co/npm/react-messaging.png)](https://nodei.co/npm/react-messaging/)  
 [![npm](https://img.shields.io/npm/dw/react-messaging)](https://www.npmjs.com/package/react-messaging)
-[![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/react-messaging)](https://libraries.io/npm/react-messaging/0.0.6/tree)
+[![Libraries.io dependency status for latest release](https://img.shields.io/librariesio/release/npm/react-messaging)](https://libraries.io/npm/react-messaging/0.1.0/tree)
 [![npm (tag)](https://img.shields.io/npm/v/react-messaging/latest)](https://www.npmjs.com/package/react-messaging?activeTab=versions)
 [![NPM](https://img.shields.io/npm/l/react-messaging)](LICENSE)
 
@@ -128,6 +128,10 @@ export interface User {
 - **showAvatarOnEveryMessage** (boolean) - show avatar on every message, even if the same user sent a message twice in a row, defaults to `false`.
 - **renderInput** (Function) - render custom view for the message input. example down.
 - **renderSend** (Function) - render custom send button. example down.
+- **renderMessage** (Function) - render custom message
+- **renderAvatar** (Function) - render custom avatar in the message, don't use with renderMessage
+- **renderText** (Function) - render custom text in the message, don't use with renderMessage
+- **renderDate** (Function) - render custom date in the message, don't use with renderMessage
 
 ### renderInput Example
 

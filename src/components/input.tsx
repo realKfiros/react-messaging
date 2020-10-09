@@ -35,7 +35,10 @@ export const Input: FC<InputProps> = ({ onSend, inputPlaceholder, renderInput, r
     if (renderInput) {
       return renderInput({
         ref: registerSend,
-        name: 'messagingChatInput'
+        name: 'messagingChatInput',
+        autoComplete: 'off',
+        autoCorrect: 'off',
+        spellCheck: 'off'
       });
     } else {
       return (
@@ -45,6 +48,9 @@ export const Input: FC<InputProps> = ({ onSend, inputPlaceholder, renderInput, r
           inputRef={registerSend}
           name="messagingChatInput"
           label={inputPlaceholder || 'Type a message...'}
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck={false}
         />
       )
     }

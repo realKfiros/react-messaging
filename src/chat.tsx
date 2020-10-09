@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Input } from './components/input';
-import { MessageRow } from './components/message';
+import { MessageProps, MessageRow, TextProps } from './components/message';
 import { Message } from './interfaces/message';
 import { User } from './interfaces/user';
 
@@ -13,7 +13,11 @@ export interface ChatProps {
   dateFormat?: string;
   showAvatarOnEveryMessage?: boolean;
   renderInput?: (props: any) => ReactNode;
-  renderSend?: (onClick: (data: any) => void) => ReactNode;
+  renderSend?: (props: any) => ReactNode;
+  renderMessage?: (props: MessageProps) => ReactNode;
+  renderText?: (props: TextProps, text: string) => ReactNode;
+  renderDate?: (props: TextProps, text: string) => ReactNode;
+  renderAvatar?: (user: User) => ReactNode;
 }
 
 export const Chat: FC<ChatProps> = ({
@@ -24,7 +28,11 @@ export const Chat: FC<ChatProps> = ({
   dateFormat,
   showAvatarOnEveryMessage,
   renderInput,
-  renderSend
+  renderSend,
+  renderMessage,
+  renderAvatar,
+  renderText,
+  renderDate
 }) => {
   const sortMessages = (message1: Message, message2: Message): number => {
     return message1.date.getTime() - message2.date.getTime();
@@ -51,6 +59,10 @@ export const Chat: FC<ChatProps> = ({
               user={user}
               dateFormat={dateFormat}
               showAvatar={showAvatar(index)}
+              renderMessage={renderMessage}
+              renderAvatar={renderAvatar}
+              renderText={renderText}
+              renderDate={renderDate}
             />
           ))}
       </MessagesContainer>

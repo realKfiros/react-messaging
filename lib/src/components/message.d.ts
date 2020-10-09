@@ -5,6 +5,7 @@ interface MessageProps {
     message: Message;
     user: User;
     dateFormat?: string;
+    showAvatar?: boolean;
 }
 export declare const MessageRow: FC<MessageProps>;
 export {};

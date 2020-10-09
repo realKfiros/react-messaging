@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import {
     Avatar,
     Typography
@@ -8,32 +8,102 @@ import { format } from 'date-fns';
 import { Message } from '../interfaces/message';
 import { User } from '../interfaces/user';
 
-interface MessageProps {
+export interface MessageProps {
     message: Message;
     user: User;
     dateFormat?: string;
     showAvatar?: boolean;
+    renderMessage?: (props: MessageProps) => ReactNode;
+    renderText?: (props: TextProps, text: string) => ReactNode;
+    renderDate?: (props: TextProps, text: string) => ReactNode;
+    renderAvatar?: (user: User) => ReactNode;
 }
 
-export const MessageRow: FC<MessageProps> = ({ message, user, dateFormat, showAvatar }) => {
+export interface TextProps {
+    sent: boolean;
+}
+
+export const MessageRow: FC<MessageProps> = ({
+    message,
+    user,
+    dateFormat,
+    showAvatar,
+    renderMessage,
+    renderText,
+    renderDate,
+    renderAvatar
+}) => {
     let Row = user._id === message.user._id ? RightRow : LeftRow;
     let MessageBubble = user._id === message.user._id ? RightBubble : LeftBubble;
     let Text = user._id === message.user._id ? RightText : LeftText;
     let Date = user._id === message.user._id ? RightDate : LeftDate;
 
-    return (
-        <Row>
-            {showAvatar ? (
-                <Avatar alt={message.user.name} src={message.user.avatar} />
-            ) : <NoAvatar />}
-            <MessageBubble>
+    function _renderMessage() {
+        if (renderMessage) {
+            return (
+                <>
+                    {renderMessage({
+                        message,
+                        user,
+                        dateFormat,
+                        showAvatar
+                    })}
+                </>
+            )
+        } else {
+            return (
+                <Row>
+                    {_renderAvatar()}
+                    <MessageBubble>
+                        {_renderText()}
+                        {_renderDate()}
+                    </MessageBubble>
+                </Row>
+            );
+        }
+    }
+
+    function _renderAvatar() {
+        if (showAvatar) {
+            if (renderAvatar) {
+                return renderAvatar(message.user);
+            } else {
+                return <Avatar alt={message.user.name} src={message.user.avatar} />;
+            }
+        } else {
+            return <NoAvatar />;
+        }
+    }
+
+    function _renderText() {
+        if (renderText) {
+            return renderText({
+                sent: user._id === message.user._id
+            }, message.text);
+        } else {
+            return (
                 <Text>
                     <Typography variant="body1">{message.text}</Typography>
                 </Text>
-                <Date>{format(message.date, dateFormat || 'hh:mm')}</Date>
-            </MessageBubble>
-        </Row>
-    )
+            );
+        }
+    }
+
+    function _renderDate() {
+        if (renderDate) {
+            return renderDate({
+                sent: user._id === message.user._id
+            }, format(message.date, dateFormat || 'kk:mm'));
+        } else {
+            return (
+                <Date>
+                    <Typography variant="caption">{format(message.date, dateFormat || 'kk:mm')}</Typography>
+                </Date>
+            );
+        }
+    }
+
+    return _renderMessage();
 }
 
 const RightRow = styled.div`
