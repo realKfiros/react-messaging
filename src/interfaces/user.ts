@@ -4,3 +4,10 @@ export interface User {
     username?: string;
     avatar?: string;
 }
+
+export interface UserFields {
+    id: string;
+    name?: string;
+    username?: string;
+    avatar?: string;
+}

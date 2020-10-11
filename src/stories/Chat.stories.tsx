@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 // also exported from '@storybook/react' if you can deal with breaking changes in 6.1
 import { Story, Meta } from '@storybook/react/types-6-0';
 import { Chat, ChatProps } from '../chat';
+import { useMessaging } from '../hooks/messaging';
 import mockMessages from '../mocks/messages.json';
-import mockUser from '../mocks/user.json';
-import { v4 } from 'uuid';
-import { Button } from '@material-ui/core';
+import mockUsers from '../mocks/users.json';
 
 export default {
   title: 'Components/Chat',
@@ -16,7 +15,20 @@ export default {
 } as Meta;
 
 const Template: Story<ChatProps> = (args) => {
-  const [messages, setMessages] = useState([]);
+  const [original_messages, setMessages] = useState([]);
+  const { messages } = useMessaging({
+    original_messages,
+    fields: {
+      text: 'text',
+      date: 'date',
+      user: {
+        id: '_id'
+      }
+    },
+    getUser: (message: any) => {
+      return mockUsers.find(user => user._id === message.sender)
+    }
+  });
 
   useEffect(() => {
     initMessages();
@@ -37,11 +49,10 @@ const Template: Story<ChatProps> = (args) => {
 
   const onSend = (text: string) => {
     setMessages([
-      ...messages,
+      ...original_messages,
       {
-        _id: v4(),
         text,
-        user: mockUser,
+        sender: '26',
         date: new Date(),
       },
     ]);
@@ -56,10 +67,10 @@ const Template: Story<ChatProps> = (args) => {
     >
       <Chat
         messages={messages}
-        user={mockUser}
+        user={mockUsers.find(user => user._id === '26')}
         onSend={onSend} />
     </div>
   );
 };
 
-export const Primary = Template.bind({});
+export const Classic = Template.bind({});

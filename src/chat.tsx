@@ -2,8 +2,10 @@ import React, { FC, ReactNode } from 'react';
 import styled from 'styled-components';
 import { Input } from './components/input';
 import { MessageProps, MessageRow, TextProps } from './components/message';
+import { SystemMessage } from './components/system_message';
 import { Message } from './interfaces/message';
 import { User } from './interfaces/user';
+import { format } from 'date-fns';
 
 export interface ChatProps {
   messages: Array<Message>;
@@ -11,6 +13,7 @@ export interface ChatProps {
   onSend: (text: string) => void;
   inputPlaceholder?: string;
   dateFormat?: string;
+  dayMessageDateFormat?: string;
   showAvatarOnEveryMessage?: boolean;
   renderInput?: (props: any) => ReactNode;
   renderSend?: (props: any) => ReactNode;
@@ -26,6 +29,7 @@ export const Chat: FC<ChatProps> = ({
   onSend,
   inputPlaceholder,
   dateFormat,
+  dayMessageDateFormat,
   showAvatarOnEveryMessage,
   renderInput,
   renderSend,
@@ -52,7 +56,7 @@ export const Chat: FC<ChatProps> = ({
     <ChatContainer>
       <MessagesContainer>
         {_messages
-          .map((message, index) => (
+          .map((message, index) => message.type === 'text' ? (
             <MessageRow
               key={message._id}
               message={message}
@@ -64,7 +68,9 @@ export const Chat: FC<ChatProps> = ({
               renderText={renderText}
               renderDate={renderDate}
             />
-          ))}
+          ) : <SystemMessage key={message._id} text={message.text === 'date_message' ? (
+                  format(message.date, dayMessageDateFormat || 'MMMM do, yyyy')
+                ) : message.text} />)}
       </MessagesContainer>
       <InputContainer>
         <Input

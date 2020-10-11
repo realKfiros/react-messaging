@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import {
     Avatar,
     Typography
@@ -13,7 +13,7 @@ export interface MessageProps {
     user: User;
     dateFormat?: string;
     showAvatar?: boolean;
-    renderMessage?: (props: MessageProps) => ReactNode;
+    renderMessage?: (message: Message, user: User) => ReactNode;
     renderText?: (props: TextProps, text: string) => ReactNode;
     renderDate?: (props: TextProps, text: string) => ReactNode;
     renderAvatar?: (user: User) => ReactNode;
@@ -23,7 +23,7 @@ export interface TextProps {
     sent: boolean;
 }
 
-export const MessageRow: FC<MessageProps> = ({
+export function MessageRow({
     message,
     user,
     dateFormat,
@@ -32,7 +32,7 @@ export const MessageRow: FC<MessageProps> = ({
     renderText,
     renderDate,
     renderAvatar
-}) => {
+}) {
     let Row = user._id === message.user._id ? RightRow : LeftRow;
     let MessageBubble = user._id === message.user._id ? RightBubble : LeftBubble;
     let Text = user._id === message.user._id ? RightText : LeftText;
@@ -40,16 +40,12 @@ export const MessageRow: FC<MessageProps> = ({
 
     function _renderMessage() {
         if (renderMessage) {
-            return (
-                <>
-                    {renderMessage({
-                        message,
-                        user,
-                        dateFormat,
-                        showAvatar
-                    })}
-                </>
-            )
+            return renderMessage({
+                message,
+                user,
+                dateFormat,
+                showAvatar
+            });
         } else {
             return (
                 <Row>
