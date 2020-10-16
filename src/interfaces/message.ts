@@ -5,6 +5,7 @@ export interface Message {
     text: string;
     user: User;
     date: Date;
+    media?: string;
     original?: any;
     type: string;
 }
@@ -14,4 +15,6 @@ export interface MessageFields {
     text: string;
     date: string;
     user: UserFields;
+    type: string;
+    media?: string | ((original_message: any) => string | Promise<string>);
 }

@@ -1,9 +1,12 @@
 [{
     "_id": "101",
     "text": "Hello",
-    "sender": "26"
+    "sender": "26",
+    "type": "text"
 }, {
     "_id": "102",
     "text": "Hi",
-    "sender": "100"
+    "sender": "100",
+    "type": "image",
+    "media": "https:\/\/talksport.com\/wp-content\/uploads\/sites\/5\/2020\/07\/GettyImages-1257657585.jpg?strip=all&quality=100&w=960"
 }]

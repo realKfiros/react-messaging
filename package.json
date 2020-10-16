@@ -1,6 +1,6 @@
 {
   "name": "react-messaging",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "The perfect chat component for ReactJS",
   "main": "lib/index.js",
   "directories": {

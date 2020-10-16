@@ -5,6 +5,7 @@ import { Chat, ChatProps } from '../chat';
 import { useMessaging } from '../hooks/messaging';
 import mockMessages from '../mocks/messages.json';
 import mockUsers from '../mocks/users.json';
+import { resolve } from 'path';
 
 export default {
   title: 'Components/Chat',
@@ -21,8 +22,12 @@ const Template: Story<ChatProps> = (args) => {
     fields: {
       text: 'text',
       date: 'date',
+      type: 'type',
       user: {
         id: '_id'
+      },
+      media: (message: any) => {
+        return new Promise<string>((resolve, reject) => resolve(message.media))
       }
     },
     getUser: (message: any) => {

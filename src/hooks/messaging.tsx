@@ -56,13 +56,27 @@ const useMessaging = ({original_messages, fields, getUser}: MessagingHookOptions
         } else {
             user = userTask;
         }
+        let media: string | undefined;
+        if (original_message[fields.type] !== 'text') {
+            if (typeof fields.media === 'string') {
+                media = original_message[fields.media];
+            } else {
+                const mediaTask = fields.media!(original_message);
+                if (typeof mediaTask === 'object') {
+                    media = await mediaTask;
+                } else {
+                    media = mediaTask;
+                }
+            }
+        }
         return {
             _id: fields.id ? original_message[fields.id] : v4(),
             text: original_message[fields.text],
             date: original_message[fields.date],
             user,
             original: original_message,
-            type: 'text'
+            type: original_message[fields.type],
+            media: media
         }
     }
 

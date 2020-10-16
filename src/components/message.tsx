@@ -17,6 +17,7 @@ export interface MessageProps {
     renderText?: (props: TextProps, text: string) => ReactNode;
     renderDate?: (props: TextProps, text: string) => ReactNode;
     renderAvatar?: (user: User) => ReactNode;
+    renderContent?: (message: Message, next: () => ReactNode) => ReactNode;
 }
 
 export interface TextProps {
@@ -31,7 +32,8 @@ export function MessageRow({
     renderMessage,
     renderText,
     renderDate,
-    renderAvatar
+    renderAvatar,
+    renderContent
 }) {
     let Row = user._id === message.user._id ? RightRow : LeftRow;
     let MessageBubble = user._id === message.user._id ? RightBubble : LeftBubble;
@@ -51,6 +53,9 @@ export function MessageRow({
                 <Row>
                     {_renderAvatar()}
                     <MessageBubble>
+                        <MessageContent>
+                            {_renderContent()}
+                        </MessageContent>
                         {_renderText()}
                         {_renderDate()}
                     </MessageBubble>
@@ -68,6 +73,24 @@ export function MessageRow({
             }
         } else {
             return <NoAvatar />;
+        }
+    }
+
+    function _renderContent() {
+        if (renderContent) {
+            return renderContent(message, _renderStockContent);
+        } else {
+            return _renderStockContent();
+        }
+    }
+
+    function _renderStockContent() {
+        if (message.type === 'image') {
+            return (
+                <Image src={message.media}/>
+            )
+        } else {
+            return null;
         }
     }
 
@@ -113,6 +136,17 @@ const LeftRow = styled.div`
     flex-direction: row;
 `;
 
+const MessageContent = styled.div`
+    max-width: calc(100% - 170px);
+    margin: 5px;
+    border-radius: 10px;
+`;
+
+const Image = styled.img`
+    width: 200px;
+    border-radius: 10px;
+`;
+
 const NoAvatar = styled.div`
     height: 40px;
     width: 40px;
@@ -122,7 +156,7 @@ const Bubble = styled.div`
     border-radius: 15px;
     min-height: 20px;
     justify-content: flex-end;
-    max-width: 50%;
+    max-width: calc(100% - 160px);
 `;
 
 const RightBubble = styled(Bubble)`

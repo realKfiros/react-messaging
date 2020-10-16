@@ -21,6 +21,7 @@ export interface ChatProps {
   renderText?: (props: TextProps, text: string) => ReactNode;
   renderDate?: (props: TextProps, text: string) => ReactNode;
   renderAvatar?: (user: User) => ReactNode;
+  renderContent?: (message: Message, next: () => ReactNode) => ReactNode;
 }
 
 export const Chat: FC<ChatProps> = ({
@@ -36,7 +37,8 @@ export const Chat: FC<ChatProps> = ({
   renderMessage,
   renderAvatar,
   renderText,
-  renderDate
+  renderDate,
+  renderContent
 }) => {
   const sortMessages = (message1: Message, message2: Message): number => {
     return message1.date.getTime() - message2.date.getTime();
@@ -56,21 +58,39 @@ export const Chat: FC<ChatProps> = ({
     <ChatContainer>
       <MessagesContainer>
         {_messages
-          .map((message, index) => message.type === 'text' ? (
-            <MessageRow
-              key={message._id}
-              message={message}
-              user={user}
-              dateFormat={dateFormat}
-              showAvatar={showAvatar(index)}
-              renderMessage={renderMessage}
-              renderAvatar={renderAvatar}
-              renderText={renderText}
-              renderDate={renderDate}
-            />
-          ) : <SystemMessage key={message._id} text={message.text === 'date_message' ? (
-                  format(message.date, dayMessageDateFormat || 'MMMM do, yyyy')
-                ) : message.text} />)}
+          .map((message, index) => {
+            switch (message.type) {
+              case 'system':
+                if (message.text === 'date_message') {
+                  return (
+                    <SystemMessage key={message._id} text={message.text === 'date_message' ? (
+                      format(message.date, dayMessageDateFormat || 'MMMM do, yyyy')
+                    ) : message.text} />
+                  );
+                } else {
+                  return (
+                    <SystemMessage key={message._id} text={message.text} />
+                  );
+                }
+              default:
+                return (
+                  <MessageRow
+                    key={message._id}
+                    message={message}
+                    user={user}
+                    dateFormat={dateFormat}
+                    showAvatar={showAvatar(index)}
+                    renderMessage={renderMessage}
+                    renderAvatar={renderAvatar}
+                    renderText={renderText}
+                    renderDate={renderDate}
+                    renderContent={renderContent}
+                  />
+                )
+            }
+          }
+        )
+      }
       </MessagesContainer>
       <InputContainer>
         <Input
